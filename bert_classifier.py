@@ -3,8 +3,9 @@
 ###
 #
 # SOURCE https://towardsdatascience.com/bert-text-classification-using-pytorch-723dfb8b6b5b
+# DATA SOURCE https://www.kaggle.com/nopdev/real-and-fake-news-dataset
 #
-# Text/News classification using the BERT (Bidirectional Encoder Representations from Transformers)
+# Text/News classification (FAKE vs REAL) using the BERT (Bidirectional Encoder Representations from Transformers)
 # transformer model (https://arxiv.org/abs/1810.04805).
 #
 ###
