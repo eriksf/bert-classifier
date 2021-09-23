@@ -51,6 +51,7 @@ if (args.source):
     source_folder = args.source
 
 
+print("Building tokenizer from 'bert-base-uncased'")
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 # Model parameter
@@ -65,6 +66,7 @@ batch_first=True, fix_length=MAX_SEQ_LEN, pad_token=PAD_INDEX, unk_token=UNK_IND
 fields = [('label', label_field), ('title', text_field), ('text', text_field), ('titletext', text_field)]
 
 # TabularDataset
+print("Creating tabular datasets")
 train, valid, test = TabularDataset.splits(path=source_folder, train='train.csv', validation='valid.csv',
                                            test='test.csv', format='CSV', fields=fields,
                                            skip_header=True)
