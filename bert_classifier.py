@@ -70,6 +70,7 @@ train, valid, test = TabularDataset.splits(path=source_folder, train='train.csv'
                                            skip_header=True)
 
 # Iterators
+print("Building iterators")
 train_iter = BucketIterator(train, batch_size=16, sort_key=lambda x: len(x.text),
                             device=device, train=True, sort=True, sort_within_batch=True)
 valid_iter = BucketIterator(valid, batch_size=16, sort_key=lambda x: len(x.text),
@@ -219,9 +220,11 @@ def train(model,
     save_metrics(file_path + '/' + 'metrics.pt', train_loss_list, valid_loss_list, global_steps_list)
     print('Finished Training!')
 
+print("Creating BERT model")
 model = BERT().to(device)
 optimizer = optim.Adam(model.parameters(), lr=2e-5)
 
+print("Start Training...")
 train(model=model, optimizer=optimizer)
 
 # Evaluation Function
@@ -248,6 +251,7 @@ def evaluate(model, test_loader):
     print(classification_report(y_true, y_pred, labels=[1,0], digits=4))
     
     
+print("Evaluating the model")
 best_model = BERT().to(device)
 
 load_checkpoint(destination_folder + '/model.pt', best_model)
