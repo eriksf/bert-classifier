@@ -36,11 +36,11 @@ import seaborn as sns
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--device', type=str, help='The device to run on: cpu or gpu (DEFAULT: gpu)')
+parser.add_argument('-d', '--device', type=str, help='The device to run on: cpu or cuda (DEFAULT: cuda)')
 parser.add_argument('-o', '--output', type=str, help='The output folder (DEFAULT: current directory)')
 parser.add_argument('-s', '--source', type=str, help='The location of the data files (DEFAULT: /code in container)')
 args = parser.parse_args()
-device = "gpu"
+device = "cuda"
 destination_folder = "."
 source_folder = "/code"
 if (args.device):
