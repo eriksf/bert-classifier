@@ -1,4 +1,4 @@
-FROM tacc/tacc-ml:centos7-cuda10-tf2.1-pt1.3
+FROM tacc/tacc-ml:centos7-cuda10-tf2.4-pt1.7
 
 # Install Transformers library
 RUN conda install -q --yes --no-update-deps -c conda-forge \
