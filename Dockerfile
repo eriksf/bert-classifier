@@ -15,4 +15,5 @@ ENV PATH=/code:$PATH
 
 COPY test.csv train.csv valid.csv /code/ 
 COPY bert_classifier.py /code
-RUN chmod +x /code/bert_classifier.py
+RUN chmod +rx /code/bert_classifier.py
+RUN chmod +r /code/*.csv
