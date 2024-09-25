@@ -13,7 +13,6 @@
 
 # Libraries
 import matplotlib.pyplot as plt
-import pandas as pd
 import torch
 
 # Preliminaries
@@ -31,7 +30,7 @@ import torch.optim as optim
 
 # Evaluation
 
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
 
 import argparse
@@ -97,7 +96,7 @@ class BERT(nn.Module):
 
 def save_checkpoint(save_path, model, valid_loss):
 
-    if save_path == None:
+    if save_path is None:
         return
     
     state_dict = {'model_state_dict': model.state_dict(),
@@ -108,7 +107,7 @@ def save_checkpoint(save_path, model, valid_loss):
 
 def load_checkpoint(load_path, model):
     
-    if load_path==None:
+    if load_path is None:
         return
     
     state_dict = torch.load(load_path, map_location=device)
@@ -120,7 +119,7 @@ def load_checkpoint(load_path, model):
 
 def save_metrics(save_path, train_loss_list, valid_loss_list, global_steps_list):
 
-    if save_path == None:
+    if save_path is None:
         return
     
     state_dict = {'train_loss_list': train_loss_list,
@@ -133,7 +132,7 @@ def save_metrics(save_path, train_loss_list, valid_loss_list, global_steps_list)
 
 def load_metrics(load_path):
 
-    if load_path==None:
+    if load_path is None:
         return
     
     state_dict = torch.load(load_path, map_location=device)
@@ -230,6 +229,17 @@ optimizer = optim.Adam(model.parameters(), lr=2e-5)
 print("Start Training...")
 train(model=model, optimizer=optimizer)
 
+# Plot Loss vs Global Steps
+train_loss_list, valid_loss_list, global_steps_list = load_metrics(destination_folder + '/metrics.pt')
+plt.plot(global_steps_list, train_loss_list, label='Train')
+plt.plot(global_steps_list, valid_loss_list, label='Valid')
+plt.xlabel('Global Steps')
+plt.ylabel('Loss')
+plt.legend()
+plt.savefig('loss_v_global_steps.png')
+print("Plot of loss vs. global steps saved as loss_v_global_steps.png")
+plt.clf()
+
 # Evaluation Function
 
 def evaluate(model, test_loader):
@@ -252,6 +262,18 @@ def evaluate(model, test_loader):
     
     print('Classification Report:')
     print(classification_report(y_true, y_pred, labels=[1,0], digits=4))
+
+    cm = confusion_matrix(y_true, y_pred, labels=[1,0])
+    ax = plt.subplot()
+    sns.heatmap(cm, annot=True, ax=ax, cmap='Blues', fmt="d")
+
+    ax.set_title('Confusion Matrix')
+    ax.set_xlabel('Predicted Labels')
+    ax.set_ylabel('True Labels')
+    ax.xaxis.set_ticklabels(['FAKE', 'REAL'])
+    ax.yaxis.set_ticklabels(['FAKE', 'REAL'])
+    plt.savefig('confusion_matrix.png')
+    print("Confusion matrix saved as confusion_matrix.png")
     
     
 print("Evaluating the model")
