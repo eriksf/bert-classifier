@@ -1,13 +1,16 @@
-FROM tacc/tacc-ml:centos7-cuda10-tf2.4-pt1.7
+FROM pytorch/pytorch:1.7.1-cuda11.0-cudnn8-runtime
 
-# Install Transformers library
-RUN conda install -q --yes --no-update-deps -c conda-forge \
-    transformers=4.16.2 \
-    seaborn=0.11.2
+# Update pip
+RUN pip install --upgrade pip
 
-# Install torchtext library
-RUN conda install -q --yes --no-update-deps -c pytorch \
-    torchtext=0.8.0
+# Install needed libraries
+RUN pip install \
+    seaborn==0.11.2 \
+    scikit-learn==0.24.2 \
+    scipy==1.7.1 \
+    tokenizers==0.20.3 \
+    torchtext==0.8.1 \
+    transformers==4.16.2
 
 WORKDIR /code
 
